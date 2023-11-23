@@ -3,13 +3,93 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Primera entrega</title>
+    <title>TruchoStore</title>
     <link rel="stylesheet" href="./css/style.css" />
   </head>
   <body>
-    <div class="container">
-      <h1>TP1</h1>
-    </div>
-    <script src="./js/app.js" async></script>
+    <header>
+      <div class="container"><h1>TruchoStore</h1></div>
+      <div class="filters">
+        <div class="container">
+          <div class="filters-group">
+            <h3>Marcas:</h3>
+            <label
+              ><input
+                type="checkbox"
+                name="chinesium"
+                class="marca-input"
+              />Chinesium
+              <span class="cantidad" id="chinesium-cantidad">(x)</span></label
+            >
+            <label
+              ><input
+                type="checkbox"
+                name="mediopelum"
+                class="marca-input"
+              />Mediopelum
+              <span class="cantidad" id="mediopelum-cantidad">(x)</span></label
+            >
+            <label
+              ><input
+                type="checkbox"
+                name="truchan"
+                class="marca-input"
+              />Truchan
+              <span class="cantidad" id="truchan-cantidad">(x)</span></label
+            >
+          </div>
+
+          <div class="filters-group">
+            <h3>Categorias:</h3>
+            <label
+              ><input type="checkbox" name="gorras" class="marca-input" />Gorras
+              <span class="cantidad" id="gorras-cantidad">(x)</span></label
+            >
+            <label
+              ><input
+                type="checkbox"
+                name="riñoneras"
+                class="marca-input"
+              />Riñoneras
+              <span class="cantidad" id="riñoneras-cantidad">(x)</span></label
+            >
+          </div>
+          <div class="filters-group">
+            <h3>Buscar:</h3>
+            <input type="text" name="search" id="search" />
+          </div>
+        </div>
+      </div>
+    </header>
+    <main>
+      <div class="container">
+        <div class="card-wrap">
+          <div class="card">
+            <img src="./img/noImage.jpg" alt="no hay imagne disponible" />
+            <h2>Producto</h2>
+            <h3>Marca</h3>
+            <hr />
+            <div class="flexible"><p>descripcion del producto</p></div>
+            <hr />
+            <div class="cantidad">
+              <label for="product-amount">Cantidad:</label>
+              <input
+                type="number"
+                id="product-amount"
+                value="1"
+                min="1"
+                max="100"
+              />
+              <span class="stock">(x disponibles)</span>
+            </div>
+            <button class="agregar-carrito">Agregar al Carrito</button>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <div class="container"><h2>TruchoStore</h2></div>
+    </footer>
+    <script src="./js/app.js" type="module" async></script>
   </body>
 </html>

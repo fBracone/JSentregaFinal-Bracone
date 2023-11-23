@@ -1,10 +1,6 @@
 console.log("js ok");
 
-const catalog = [
-  { name: "item1", price: 5 },
-  { name: "item2", price: 7 },
-  { name: "item3", price: 2 },
-];
+import { catalog } from "./catalgo.js";
 
 const cart = [];
 
@@ -36,13 +32,26 @@ function askInput(item) {
   return Number(input);
 }
 
+function filterCatalog(catalog, criterion, value) {
+  return catalog.filter((product) =>
+    product[criterion].toLowerCase().includes(value)
+  );
+}
+alert("ejemplo de filtrado en consola");
+const ejemploFiltrado = filterCatalog(catalog, "categoria", "gorra");
+console.log(ejemploFiltrado);
+
+function validateCart(e) {
+  e.preventDefault();
+}
+
+function showProducts() {}
+
 alert("si llevas mas de 1000$ tenes un 10% de descuento");
 const discount = 0.9;
 
 for (let i = 0; i < catalog.length; i++) {
   const amount = askInput(catalog[i]);
-  2;
-  2;
   const totalPrice = amount * catalog[i].price;
 
   if (amount !== 0) {
