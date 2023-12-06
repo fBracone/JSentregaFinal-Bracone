@@ -49,14 +49,30 @@ header .filters label {
   font-weight: 500;
   margin-right: 10px;
 }
-header .filters .marca-input {
+header .filters .filter-checkbox {
   margin: 0 5px 0 10px;
-}
-header .filters .cantidad {
-  font-weight: 300;
 }
 header .filters .container {
   flex-wrap: wrap;
+  justify-content: space-between;
+}
+header .filters .cart-btn {
+  padding: 1px 5px 1px 5px;
+  margin-left: 5px;
+  border: solid rgb(114, 114, 114) 1px;
+  border-radius: 3px;
+  background: rgb(235, 235, 235);
+  transition: 0.5s;
+}
+header .filters .cart-btn:hover {
+  background: white;
+  cursor: pointer;
+}
+header .filters .cart-filled {
+  background: rgb(183, 255, 239);
+}
+header .filters .cart-filled:hover {
+  background: #ccfffc;
 }
 
 main {
@@ -74,6 +90,10 @@ main {
     margin-top: 16vh;
     min-height: 84vh;
   }
+}
+main.hidenFilters {
+  margin-top: 10vh;
+  min-height: 90vh;
 }
 main .container {
   justify-content: space-around;
@@ -114,6 +134,10 @@ main .card {
 main .card:hover {
   box-shadow: 5px 5px 25px rgba(46, 46, 46, 0.25);
 }
+main .card .no-stock {
+  text-align: center;
+  font-weight: 700;
+}
 main .card .flexible {
   flex-grow: 1;
 }
@@ -143,6 +167,9 @@ main .card button {
   border-radius: 1rem;
   transition: 0.5s;
 }
+main .card button:hover {
+  cursor: pointer;
+}
 main .card .agregar-carrito {
   color: white;
   background-color: rgb(46, 46, 46);
@@ -152,14 +179,106 @@ main .card .agregar-carrito:hover {
   border-color: #ffcccf;
   background-color: #ffcccf;
 }
+main .card .cant-price-cont {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: end;
+}
 main .card .cantidad input {
+  margin-left: 5px;
   width: 3em;
+}
+main .card .cantidad .stock {
+  font-size: 0.8em;
+}
+main .card .price {
+  font-weight: 700;
+  font-size: 1.5em;
+  margin-bottom: 5px;
+}
+main .cart {
+  width: 100%;
+  max-width: 900px;
+  margin: auto;
+}
+main .cart .cart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+}
+main .cart h2 {
+  display: inline-block;
+}
+main .cart .cerrar-carrito {
+  font-weight: 700;
+  border: none;
+  background: none;
+}
+main .cart hr {
+  margin-top: 10px;
+}
+main .cart .product {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+}
+main .cart .product .product-info {
+  display: flex;
+}
+main .cart .product .product-info .product-name {
+  display: flex;
+  flex-direction: column;
+  margin-left: 0.5rem;
+  justify-content: end;
+}
+main .cart img {
+  border-radius: 0.5rem;
+  margin: 0;
+  width: 50px;
+}
+main .cart .eliminar-carrito {
+  margin-right: 10px;
+  background-color: #ffcccf;
+  border-color: #ffcccf;
+  font-weight: 700;
+}
+main .cart .eliminar-carrito:hover {
+  background-color: rgb(255, 74, 89);
+  color: white;
+}
+main .cart .comprar-carrito {
+  margin-right: 10px;
+  background-color: #ccfffc;
+  border-color: #ccfffc;
+  font-weight: 700;
+}
+main .cart .comprar-carrito:hover {
+  background-color: rgb(61, 218, 210);
+  color: white;
+}
+main .cart .total {
+  text-align: right;
+}
+main .cart .buy-div {
+  display: flex;
+  justify-content: space-around;
+}
+main .cart .price {
+  margin-left: 10px;
 }
 
 footer {
   background-color: rgb(46, 46, 46);
 }
+footer .container {
+  justify-content: center;
+}
 footer h2 {
   font-weight: 700;
   color: #ccfffc;
+}
+
+.hiden {
+  display: none;
 }/*# sourceMappingURL=style.css.map */

@@ -57,14 +57,30 @@ header{
             font-weight: 500;
             margin-right: 10px;
         }
-        .marca-input{
+        .filter-checkbox{
             margin: 0 5px 0 10px;
-        }
-        .cantidad{
-            font-weight: 300;
         }
         .container{
             flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .cart-btn{
+            padding: 1px 5px 1px 5px;
+            margin-left: 5px;
+            border: solid rgb(114, 114, 114) 1px;
+            border-radius: 3px ;
+            background: rgb(235, 235, 235);
+            transition: 0.5s;
+            &:hover{
+                background: white ;
+                cursor: pointer
+            }
+        }
+        .cart-filled{
+            background: rgb(183, 255, 239);
+            &:hover{
+                background: $thirdColor ;
+            }
         }
     }
 }
@@ -81,6 +97,10 @@ main{
         margin-top: 16vh;  
         min-height: 84vh;    
         }
+    &.hidenFilters{
+        margin-top: 10vh;  
+        min-height: 90vh; 
+    }
     .container{
         justify-content: space-around;
         align-items: stretch;
@@ -116,6 +136,10 @@ main{
 
         }
 
+        .no-stock{
+            text-align: center;
+            font-weight: 700;
+        }
         .flexible{
             flex-grow: 1;
         }
@@ -137,6 +161,7 @@ main{
             border-radius: 1rem 1rem 0 0;
             margin-bottom: 5px;
         }
+
         :is(hr,p,.cantidad,button){
             margin-bottom: 5px;
         
@@ -146,6 +171,9 @@ main{
             margin-top: 10px;
             border-radius: 1rem;
             transition: 0.5s;
+            &:hover{
+                cursor: pointer
+            }
         }
 
         .agregar-carrito{
@@ -157,19 +185,113 @@ main{
             background-color: $secColor;
         }  
         } 
+        .cant-price-cont{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: end;
+        }
         .cantidad{
             input{
+                margin-left: 5px;
                 width: 3em;
             }
+            .stock{
+                font-size: 0.8em;
+            }
         }
+        .price{
+            font-weight: 700;
+            font-size: 1.5em;
+            margin-bottom: 5px;
+        }
+    }
+    .cart{
+        width: 100%;
+        max-width: 900px;
+        margin: auto;
+        .cart-header{
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+        }
+        h2{
+            display: inline-block;
+        }
+        .cerrar-carrito{
+            font-weight: 700;
+            border: none;
+            background: none;
+        }
+        hr{
+        
+            margin-top: 10px;    
+        }
+        .product{
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            .product-info{
+                display: flex;
+                .product-name{
+                    display: flex;
+                    flex-direction: column;
+                    margin-left: 0.5rem ;
+                    justify-content: end;
+                }
+            }
+        }
+        img{
+            border-radius: 0.5rem;
+            margin:0;
+            width: 50px;
+        }
+        .eliminar-carrito{
+            margin-right: 10px;
+            background-color: $secColor;
+            border-color: $secColor;
+            font-weight: 700;
+            &:hover{
+                background-color: rgb(255, 74, 89);
+                color: white;
+            }
+        }
+        .comprar-carrito{
+            margin-right: 10px;
+            background-color: $thirdColor;
+            border-color: $thirdColor;
+            font-weight: 700;
+            &:hover{
+                background-color: rgb(61, 218, 210);
+                color: white;
+            }
+        }
+        .total{
+            text-align: right;
+        }
+        .buy-div{
+            display:flex;
+            justify-content: space-around;
+        }
+        .price{
+            margin-left: 10px;
+        }
+        
     }
 }
 
 
 footer{
     background-color:$mainColor;
+    .container{
+        justify-content: center;
+    }
     h2{
         font-weight: 700;
         color:$thirdColor ;
     }
+}
+
+.hiden{
+    display: none;
 }

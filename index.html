@@ -4,88 +4,73 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TruchoStore</title>
-    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./style/style.css" />
   </head>
   <body>
     <header>
       <div class="container"><h1>TruchoStore</h1></div>
-      <div class="filters">
+      <div class="filters" id="filters-bar">
         <div class="container">
           <div class="filters-group">
             <h3>Marcas:</h3>
             <label
               ><input
                 type="checkbox"
-                name="chinesium"
-                class="marca-input"
+                name="brand"
+                value="Chinesium"
+                class="filter-checkbox brand-checkbox"
               />Chinesium
-              <span class="cantidad" id="chinesium-cantidad">(x)</span></label
-            >
+            </label>
             <label
               ><input
                 type="checkbox"
-                name="mediopelum"
-                class="marca-input"
+                name="brand"
+                value="Mediopelum"
+                class="filter-checkbox brand-checkbox"
               />Mediopelum
-              <span class="cantidad" id="mediopelum-cantidad">(x)</span></label
-            >
+            </label>
             <label
               ><input
                 type="checkbox"
-                name="truchan"
-                class="marca-input"
+                name="brand"
+                value="Truchan"
+                class="filter-checkbox brand-checkbox"
               />Truchan
-              <span class="cantidad" id="truchan-cantidad">(x)</span></label
-            >
+            </label>
           </div>
 
           <div class="filters-group">
-            <h3>Categorias:</h3>
+            <h3>Categorías:</h3>
             <label
-              ><input type="checkbox" name="gorras" class="marca-input" />Gorras
-              <span class="cantidad" id="gorras-cantidad">(x)</span></label
+              ><input
+                type="checkbox"
+                name="category"
+                value="Gorras"
+                class="filter-checkbox category-checkbox"
+              />Gorras</label
             >
             <label
               ><input
                 type="checkbox"
-                name="riñoneras"
-                class="marca-input"
+                name="category"
+                value="Riñoneras"
+                class="filter-checkbox category-checkbox"
               />Riñoneras
-              <span class="cantidad" id="riñoneras-cantidad">(x)</span></label
-            >
+            </label>
           </div>
+
           <div class="filters-group">
             <h3>Buscar:</h3>
             <input type="text" name="search" id="search" />
+            <button class="cart-btn" id="open-cart">
+              Cart <span id="cart-articles">(0)</span>
+            </button>
           </div>
         </div>
       </div>
     </header>
     <main>
-      <div class="container">
-        <div class="card-wrap">
-          <div class="card">
-            <img src="./img/noImage.jpg" alt="no hay imagne disponible" />
-            <h2>Producto</h2>
-            <h3>Marca</h3>
-            <hr />
-            <div class="flexible"><p>descripcion del producto</p></div>
-            <hr />
-            <div class="cantidad">
-              <label for="product-amount">Cantidad:</label>
-              <input
-                type="number"
-                id="product-amount"
-                value="1"
-                min="1"
-                max="100"
-              />
-              <span class="stock">(x disponibles)</span>
-            </div>
-            <button class="agregar-carrito">Agregar al Carrito</button>
-          </div>
-        </div>
-      </div>
+      <div class="container" id="cardContainer"></div>
     </main>
     <footer>
       <div class="container"><h2>TruchoStore</h2></div>
