@@ -1,6 +1,8 @@
 console.log("js ok");
-import { catalogJSON } from "./catalogo.js";
-const catalog = JSON.parse(catalogJSON);
+import Toastify from "../node_modules/toastify-js/src/toastify-es.js";
+
+let catalog = {};
+let dolar = 1;
 let cart = JSON.parse(localStorage.getItem("cart")) ?? [];
 
 const cardContainer = document.getElementById("cardContainer");
@@ -10,6 +12,59 @@ const categoryCheckboxes = document.querySelectorAll(".category-checkbox");
 const showCartButton = document.getElementById("open-cart");
 const filtersBar = document.getElementById("filters-bar");
 let showCartState = false;
+
+const addCartToast = {
+  text: "Producto agregado al carrito",
+  gravity: "top",
+  position: "right",
+  close: true,
+  style: {
+    color: "rgb(46, 46, 46)",
+    background: "linear-gradient( 53deg, #ccfffc, #ffcccf)",
+  },
+};
+
+const buyToast = {
+  text: "Compra realizada",
+  gravity: "top",
+  position: "center",
+  close: true,
+  style: {
+    color: "rgb(46, 46, 46)",
+    background: "linear-gradient( 53deg, #ccfffc, #ffcccf)",
+  },
+};
+
+function getCatalog() {
+  return new Promise((resolve, reject) => {
+    fetch("../JSON/catalog.json")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Error al cargar la API");
+        }
+        return response.json();
+      })
+      .then((data) => resolve(data))
+      .catch((error) => reject(error));
+  });
+}
+
+function getDolar() {
+  return new Promise((resolve, reject) => {
+    fetch("https://dolarapi.com/v1/dolares/oficial")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Error al cargar dolarAPI");
+        }
+        return response.json();
+      })
+      .then((data) => resolve(data))
+      .catch((error) => {
+        console.error("Error al cargar dolarAPI", error);
+        reject(error);
+      });
+  });
+}
 
 function filterCatalog(
   catalog,
@@ -47,7 +102,8 @@ function findProduct(productId, arr) {
   return arr.findIndex((product) => product.id === productId);
 }
 
-function addOrUpdateCart(productId, amount) {
+async function addOrUpdateCart(productId, amount) {
+  await fetchData();
   const index = findProduct(productId, cart);
 
   if (index !== -1) {
@@ -82,13 +138,6 @@ function updateCatalog() {
     newCatalog.push(newProduct);
   }
   return newCatalog;
-}
-
-function buy() {
-  const updatedCatalog = JSON.stringify(updateCatalog());
-  clearCart();
-  updateFilters();
-  alert(`Actualizacion de stock: \n ${updatedCatalog}`);
 }
 
 function removeElementCart(productId) {
@@ -132,7 +181,17 @@ function amountHandler(productId, amountInput) {
     );
     productTotalPriceSpan.innerHTML = `$${productPrice * amount}`;
   }
+  Toastify(addCartToast).showToast();
   addOrUpdateCart(productId, amount);
+}
+
+async function buy() {
+  await fetchData();
+  const updatedCatalog = JSON.stringify(updateCatalog());
+  clearCart();
+  updateFilters();
+  console.log(JSON.stringify(updatedCatalog));
+  Toastify(buyToast).showToast();
 }
 
 function createProductListener(productId) {
@@ -195,11 +254,15 @@ function sumTotalPrice() {
   );
 }
 
-function updateTotalPrice() {
+async function updateTotalPrice() {
+  await fetchData();
   const total = document.getElementById("total-price");
   if (total !== null) {
+    const totalPrice = sumTotalPrice();
     total.innerHTML =
-      cart.length > 0 ? `TOTAL: $${sumTotalPrice()}` : "TOTAL:  ";
+      cart.length > 0
+        ? `TOTAL: $${totalPrice}<span>(${totalPrice * dolar} AR$)</span>`
+        : "TOTAL:  ";
   }
 }
 
@@ -254,9 +317,9 @@ function createCartProductHTML({ id, name, brand, stock, price, amount }) {
                 max="${stock}" class="update-amount" id="${id}-update-amount" /></label>
                 <span class="stock">(${stock} disponibles)</span>
               </div>
-              <span class="price" id="${id}-total-price">$${
-    price * amount
-  }</span>
+              <span class="price" id="${id}-total-price">$
+              ${price * amount}</span>
+              <span class="pesos">(${price * amount * dolar} AR$)</span>
             </div>
           </div>
   `;
@@ -271,7 +334,11 @@ function createProductCard(
                           <label >Cantidad:<input type="number" name="cantidad" value="1" min="1" max="${stock}" id="${id}-amount" /></label>
                           <span class="stock">(${stock} disponibles)</span>
                         </div>
-                        <span class="price">$${price}</span>
+                        <div>
+                        <span class="price">$${price}</span><span class="pesos">(
+                          ${price * dolar} 
+                        AR$)</span>
+                        </div>
                       </div>
                       <button class="agregar-carrito" id="${id}-add" >Agregar al Carrito </button>   
                     `;
@@ -280,20 +347,17 @@ function createProductCard(
   const productCard = document.createElement("div");
   productCard.classList.add("card-wrap");
   productCard.innerHTML = `
-    <div class="card">
-      <img src="./img/${id}.jpg" alt="${name}" />
-      <h2>${name}</h2>
-      <h3>${brand}</h3>
-      <hr />
-      <div class="flexible">
-        <p>${description}</p>
-      </div>
-      <hr />
-      
-        ${variableHTML}
-      
-      
-    </div>
+                            <div class="card">
+                              <img src="./img/${id}.jpg" alt="${name}" />
+                              <h2>${name}</h2>
+                              <h3>${brand}</h3>
+                              <hr />
+                              <div class="flexible">
+                                <p>${description}</p>
+                              </div>
+                              <hr />
+                              ${variableHTML}
+                            </div>
   `;
 
   container.appendChild(productCard);
@@ -302,7 +366,8 @@ function createProductCard(
   }
 }
 
-function showProducts(container, catalog) {
+async function showProducts(container, catalog) {
+  await fetchData();
   showCartState = false;
   filtersBar.classList.remove("hiden");
   cleanContainer(container);
@@ -311,7 +376,8 @@ function showProducts(container, catalog) {
   }
 }
 
-function showCart(container) {
+async function showCart(container) {
+  await fetchData();
   cleanContainer(container);
   showCartState = true;
   filtersBar.classList.add("hiden");
@@ -324,16 +390,37 @@ function handleShowCartButton() {
   }
 }
 
-brandCheckboxes.forEach((checkbox) =>
-  checkbox.addEventListener("change", updateFilters)
-);
-categoryCheckboxes.forEach((checkbox) =>
-  checkbox.addEventListener("change", updateFilters)
-);
-searchBar.addEventListener("input", updateFilters);
-showCartButton.addEventListener("click", () => handleShowCartButton());
+async function fetchData() {
+  try {
+    catalog = await getCatalog();
+  } catch (error) {
+    console.error("Error en la app", error);
+  }
+  try {
+    dolar = await getDolar();
+    dolar = dolar.venta;
+  } catch (error2) {
+    console.error("Error en la app", error2);
+  }
+}
 
-updateCartCount();
-showProducts(cardContainer, catalog);
+async function startApp() {
+  await fetchData();
+  brandCheckboxes.forEach((checkbox) =>
+    checkbox.addEventListener("change", updateFilters)
+  );
+  categoryCheckboxes.forEach((checkbox) =>
+    checkbox.addEventListener("change", updateFilters)
+  );
+  searchBar.addEventListener("input", updateFilters);
+  showCartButton.addEventListener("click", () => handleShowCartButton());
 
-localStorage.clear();
+  updateCartCount();
+  showProducts(cardContainer, catalog);
+}
+
+startApp();
+
+setInterval(async () => {
+  await fetchData();
+}, 600000);
